@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerStay2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Platform")) {
             playerRb.velocity = Vector2.zero;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
@@ -64,9 +64,9 @@ public class PlayerController : MonoBehaviour {
 
     private IEnumerator JumpAnimation() {
         string previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
-        
+
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite+"-odskok");
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.5f);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
         isJumping = false;
     }
