@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpForce = 6.5f;
 
     private Rigidbody2D playerRb;
+    private bool isJumping = false;
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
@@ -20,10 +21,16 @@ public class PlayerController : MonoBehaviour {
 
         Vector3 movement = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            //if (!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-left"))
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left");
             movement += Vector3.left;
-        if (Input.GetKey(KeyCode.RightArrow))
+        }
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            //if(!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-right"))
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right");
             movement += Vector3.right;
+        }
 
         transform.position += movement * speed * Time.deltaTime;
     }
@@ -33,6 +40,10 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.CompareTag("Platform")) {
             playerRb.velocity = Vector2.zero;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            if (!isJumping) {
+                isJumping = true;
+                StartCoroutine(JumpAnimation());
+            }
             //transform.position += Vector3.up * jumpForce * Time.deltaTime;
         }
     }
@@ -45,6 +56,19 @@ public class PlayerController : MonoBehaviour {
         else if(transform.position.x < -3f) {
             transform.position = new Vector3(3f, transform.position.y, transform.position.z);
         }
+        if (transform.position.y < -5.9f) {
+            Debug.Log("Game Over");
+            Destroy(this.gameObject);
+        }
+    }
+
+    private IEnumerator JumpAnimation() {
+        string previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+        
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite+"-odskok");
+        yield return new WaitForSeconds(.4f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
+        isJumping = false;
     }
 
 }

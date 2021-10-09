@@ -29,7 +29,7 @@ public class PlatformFactory : MonoBehaviour {
         float yPos = 0f, radius = 1f, distance = .5f;
 
         for (int i = 0; i < platformDensity; i++) {
-            yPos = Random.Range(-4f, 5f);
+            yPos = Random.Range(-4.5f, 5f);
             GameObject newPlatform = Instantiate(platformPrefab, new Vector3(Random.Range(-2.5f, 2.5f), yPos), platformPrefab.transform.rotation);
             newPlatform.transform.parent = this.gameObject.transform;
 
