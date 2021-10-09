@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlatformFactory : MonoBehaviour {
 
     public GameObject platformPrefab;
+    public float distanceBetweenPlateforms;
     private int platformDensity = 30; //nb of platforms to instantiate
     private GameObject player;
     private List<GameObject> platforms;
@@ -24,29 +25,30 @@ public class PlatformFactory : MonoBehaviour {
     }
 
     void GeneratePlatforms() {
-        RaycastHit2D hitUp, hitDown, hitLeft, hitRight;
-
-        float yPos = 0f, radius = 1f, distance = .5f;
+        Vector2 newPos;
+        bool overlaps;
 
         for (int i = 0; i < platformDensity; i++) {
-            yPos = Random.Range(-4.5f, 5f);
-            GameObject newPlatform = Instantiate(platformPrefab, new Vector3(Random.Range(-2.5f, 2.5f), yPos), platformPrefab.transform.rotation);
-            newPlatform.transform.parent = this.gameObject.transform;
+            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(-4f, 5f));
+            overlaps = false;
 
-            //check if there is another platform nearby, and delete this platform if yes
-            hitUp = Physics2D.CircleCast(newPlatform.transform.position, radius, Vector2.up, distance);
-            hitDown = Physics2D.CircleCast(newPlatform.transform.position, radius, Vector2.down, distance);
-            hitLeft = Physics2D.CircleCast(newPlatform.transform.position, radius, Vector2.left, distance);
-            hitRight = Physics2D.CircleCast(newPlatform.transform.position, radius, Vector2.right, distance);
-
-
-            if (hitUp.collider != null || hitDown.collider != null || hitLeft.collider != null || hitRight.collider != null) {
-                //Debug.Log("destroy "+ newPlatform.transform.position);
-                Destroy(newPlatform);
+            foreach(GameObject platform in platforms){
+                //if position overlaps existing platform
+                if(Vector2.Distance(newPos, platform.transform.position) <= distanceBetweenPlateforms){
+                    overlaps = true;
+                    break;
+                }
             }
-            else {
+            if(!overlaps){
+                GameObject newPlatform = Instantiate(platformPrefab, newPos, platformPrefab.transform.rotation);
                 platforms.Add(newPlatform);
             }
+            else {
+                //Try again ?
+                if(Random.Range(0, 2) == 1)
+                    platformDensity++;
+            }
+                
         }
 
     }
