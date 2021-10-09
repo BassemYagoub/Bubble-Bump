@@ -31,20 +31,19 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Platform")) {
-            Debug.Log("Jump");
-
+            playerRb.velocity = Vector2.zero;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             //transform.position += Vector3.up * jumpForce * Time.deltaTime;
         }
     }
 
     private void CheckIfTouchesSide() {
-        if(transform.position.x > 3.1f) {
-            transform.position = new Vector3(-3.1f, transform.position.y, transform.position.z);
+        if(transform.position.x > 3f) {
+            transform.position = new Vector3(-3f, transform.position.y, transform.position.z);
         }
 
-        else if(transform.position.x < -3.1f) {
-            transform.position = new Vector3(3.1f, transform.position.y, transform.position.z);
+        else if(transform.position.x < -3f) {
+            transform.position = new Vector3(3f, transform.position.y, transform.position.z);
         }
     }
 
