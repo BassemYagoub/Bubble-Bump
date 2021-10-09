@@ -13,25 +13,15 @@ public class PlatformController : MonoBehaviour {
 
     }
 
-    //if player touches platform from below => he can go through
-    private void OnCollisionEnter2D(Collision2D collision) {
-        //Debug.Log("collision with "+ collision.transform.position.y+" | platform = "+transform.position.y);
-        //Debug.Log(collision.gameObject.tag);
-        if (collision.gameObject.CompareTag("Player") && collision.transform.position.y < transform.position.y) {
-            //Debug.Log("go through");
-            GetComponent<BoxCollider2D>().isTrigger = true;
-        }
-    }
-
-    //if player touches platform from above => he can go on top
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag("Player") && collision.transform.position.y >= transform.position.y) {
-            GetComponent<BoxCollider2D>().isTrigger = false;
-            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-
-            //give him some jump force back because he might lose it sometimes
-            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            player.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
+    private void OnTriggerStay2D(Collider2D other) {
+        if(other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y)
+        {
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            
+            if(other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f){
+                other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
+            }
         }
     }
 }
