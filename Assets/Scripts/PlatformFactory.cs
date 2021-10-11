@@ -41,6 +41,7 @@ public class PlatformFactory : MonoBehaviour {
             }
             if(!overlaps){
                 GameObject newPlatform = Instantiate(platformPrefab, newPos, platformPrefab.transform.rotation);
+                newPlatform.transform.parent = this.gameObject.transform;
                 platforms.Add(newPlatform);
             }
             else {
