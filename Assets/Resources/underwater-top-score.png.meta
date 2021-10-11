@@ -1,7 +1,46 @@
 fileFormatVersion: 2
 guid: 41c13e6ffd471364c9319f799d0e6c1c
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -2688189785871134139
+    second: underwater-top-score_0
+  - first:
+      213: -1944316175718160987
+    second: underwater-top-score_1
+  - first:
+      213: -4204109303721098687
+    second: underwater-top-score_2
+  - first:
+      213: 4340380985960915062
+    second: underwater-top-score_3
+  - first:
+      213: -8067807751020103661
+    second: underwater-top-score_4
+  - first:
+      213: -5425787321417246417
+    second: underwater-top-score_5
+  - first:
+      213: -2485774779624849401
+    second: underwater-top-score_6
+  - first:
+      213: 8433446354766351363
+    second: underwater-top-score_7
+  - first:
+      213: -1948729006765304300
+    second: underwater-top-score_8
+  - first:
+      213: -2879740576720518994
+    second: underwater-top-score_9
+  - first:
+      213: 4502977998292810865
+    second: underwater-top-score_10
+  - first:
+      213: -4923342437672846643
+    second: underwater-top-score_11
+  - first:
+      213: 6481989128816700242
+    second: underwater-top-score_13
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +80,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,9 +114,294 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: underwater-top-score_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 320
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5425154e1a1a1bad0800000000000000
+      internalID: -2688189785871134139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_1
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 29
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5e5475db66405e0800000000000000
+      internalID: -1944316175718160987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_2
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 29
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1420ac2dcd008a5c0800000000000000
+      internalID: -4204109303721098687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_3
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 29
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6706f0aa2812c3c30800000000000000
+      internalID: 4340380985960915062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_4
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 29
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 318bd447893690090800000000000000
+      internalID: -8067807751020103661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_5
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 29
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f295b10ad2bb3b4b0800000000000000
+      internalID: -5425787321417246417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 29
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70006d41201c08dd0800000000000000
+      internalID: -2485774779624849401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_7
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 29
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30c492007ce990570800000000000000
+      internalID: 8433446354766351363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_8
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 29
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 416114c0b49b4f4e0800000000000000
+      internalID: -1948729006765304300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_9
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 29
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea08b47f33b1908d0800000000000000
+      internalID: -2879740576720518994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_10
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 29
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17c74a3b1aacd7e30800000000000000
+      internalID: 4502977998292810865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_11
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 29
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dca77ee4326ccabb0800000000000000
+      internalID: -4923342437672846643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: underwater-top-score_13
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 30
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25b201505c6a4f950800000000000000
+      internalID: 6481989128816700242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
