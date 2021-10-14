@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag("Platform")) {
+        if (collision.gameObject.CompareTag("Platform") && collision.transform.position.y > transform.position.y+gameObject.GetComponent<BoxCollider2D>().bounds.size.y) {
             playerRb.velocity = Vector2.zero;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             if (!isJumping) {
@@ -56,15 +56,10 @@ public class PlayerController : MonoBehaviour {
         else if(transform.position.x < -3f) {
             transform.position = new Vector3(3f, transform.position.y, transform.position.z);
         }
-        if (transform.position.y < -5.9f) {
-            Debug.Log("Game Over");
-            Destroy(this.gameObject);
-        }
     }
 
     private IEnumerator JumpAnimation() {
         string previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
-        Debug.Log(previousSprite.Substring(0, previousSprite.Length - 3));
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite.Substring(0, previousSprite.Length-3) +"-odskok@2x");
         yield return new WaitForSeconds(.5f);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);

@@ -29,7 +29,7 @@ public class PlatformFactory : MonoBehaviour {
         bool overlaps;
 
         for (int i = 0; i < platformDensity; i++) {
-            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(.8f, 11f));
+            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(.5f, 11f));
             overlaps = false;
 
             foreach(GameObject platform in platforms){

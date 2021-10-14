@@ -2,32 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 [DisallowMultipleComponent]
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
     public TextMeshProUGUI scoreText;
     private int score;
     private GameObject player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
+    private GameObject mainCamera;
+    private bool gameOver = false;
+    
+    void Start() {
         player = GameObject.Find("Player");
+        mainCamera = GameObject.Find("Main Camera");
         score = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        int tmpScore = (int)player.transform.position.y * 100;
-        if (tmpScore > score) {
-            score = tmpScore;
-            //scoreText.GetComponent<TextMeshProUGUI>().text = tmpScore.ToString();
-        }
-        int visibleScore = int.Parse(scoreText.GetComponent<TextMeshProUGUI>().text);
-        if (visibleScore < score)
-                scoreText.GetComponent<TextMeshProUGUI>().text = (visibleScore+(score-visibleScore)/5).ToString();
+    void Update() {
+        if (!gameOver) {
+            //score management
+            int tmpScore = (int)player.transform.position.y * 100;
+            if (tmpScore > score) {
+                score = tmpScore;
+                //scoreText.GetComponent<TextMeshProUGUI>().text = tmpScore.ToString();
+            }
+            int visibleScore = int.Parse(scoreText.GetComponent<TextMeshProUGUI>().text);
+            if (visibleScore < score)
+                scoreText.GetComponent<TextMeshProUGUI>().text = (visibleScore + (score - visibleScore) / 5).ToString();
 
+            //game state management
+            if (player.transform.position.y < mainCamera.transform.position.y - 5.9f) {
+                gameOver = true;
+                Destroy(player);
+                Debug.Log("Game Over");
+            }
+        }
+        else {
+            SceneManager.LoadScene("TitleScreen");
+        }
     }
 }
