@@ -23,8 +23,11 @@ public class GameController : MonoBehaviour
         int tmpScore = (int)player.transform.position.y * 100;
         if (tmpScore > score) {
             score = tmpScore;
-            scoreText.GetComponent<TextMeshProUGUI>().text = tmpScore.ToString();
+            //scoreText.GetComponent<TextMeshProUGUI>().text = tmpScore.ToString();
         }
-            
+        int visibleScore = int.Parse(scoreText.GetComponent<TextMeshProUGUI>().text);
+        if (visibleScore < score)
+                scoreText.GetComponent<TextMeshProUGUI>().text = (visibleScore+(score-visibleScore)/5).ToString();
+
     }
 }

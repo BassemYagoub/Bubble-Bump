@@ -7,7 +7,7 @@ public class PlatformFactory : MonoBehaviour {
 
     public GameObject platformPrefab;
     public float distanceBetweenPlateforms;
-    private int platformDensity = 30; //nb of platforms to instantiate
+    private int platformDensity = 15; //nb of platforms to instantiate
     private GameObject player;
     private List<GameObject> platforms;
 
@@ -29,7 +29,7 @@ public class PlatformFactory : MonoBehaviour {
         bool overlaps;
 
         for (int i = 0; i < platformDensity; i++) {
-            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(-4f, 5f));
+            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(.8f, 11f));
             overlaps = false;
 
             foreach(GameObject platform in platforms){
