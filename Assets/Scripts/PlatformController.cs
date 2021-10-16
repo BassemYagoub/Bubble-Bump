@@ -14,8 +14,7 @@ public class PlatformController : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y)
-        {
+        if(other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y) {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             
             if(other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f){
