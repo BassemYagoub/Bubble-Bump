@@ -37,8 +37,6 @@ public class PlayerController : MonoBehaviour {
 
 
     private void OnTriggerStay2D(Collider2D collision) {
-        Debug.Log(collision.transform.position.y+", "+transform.position.y + gameObject.GetComponent<BoxCollider2D>().bounds.size.y);
-
         if (collision.gameObject.CompareTag("Platform") && collision.transform.position.y <= transform.position.y+gameObject.GetComponent<BoxCollider2D>().bounds.size.y) {
             //playerRb.velocity = Vector2.zero;
             //playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);

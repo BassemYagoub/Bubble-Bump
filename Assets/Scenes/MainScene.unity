@@ -1222,4 +1222,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPrefab: {fileID: 1443264340937438105, guid: 4d773bdf98c496348aba687933cdbf42, type: 3}
+  movingPlatformPrefab: {fileID: 372730787329911933, guid: 37eb6a78de337401fa2dfbcbfd3a9eea, type: 3}
   distanceBetweenPlateforms: 1

@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
             if (player.transform.position.y < mainCamera.transform.position.y - 5.9f) {
                 gameOver = true;
                 Destroy(player);
-                Debug.Log("Game Over");
+                //Debug.Log("Game Over");
             }
         }
         else {

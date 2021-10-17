@@ -6,8 +6,11 @@ using UnityEngine;
 public class PlatformFactory : MonoBehaviour {
 
     public GameObject platformPrefab;
+    public GameObject movingPlatformPrefab;
     public float distanceBetweenPlateforms;
-    private int platformDensity = 30; //nb of platforms to instantiate
+
+    private float difficulty = 10f; //chances (0-100%) of generating a non-simple platform
+    private int platformDensity = 25; //nb of platforms to instantiate
     private List<GameObject> platforms;
 
     private GameObject player;
@@ -19,6 +22,7 @@ public class PlatformFactory : MonoBehaviour {
         player = GameObject.Find("Player");
         mainCamera = GameObject.Find("Main Camera");
         platforms = new List<GameObject>();
+        platforms.Add(GameObject.FindGameObjectWithTag("Platform"));
 
         GeneratePlatforms();
     }
@@ -32,6 +36,7 @@ public class PlatformFactory : MonoBehaviour {
             UpdateEverySecond();
         }
 
+        //Generate new platforms if player reaches border of camera height
         if(mainCamera.transform.position.y > lastCameraYPos + (mainCamera.GetComponent<Camera>().orthographicSize*2))
             GeneratePlatforms(mainCamera.transform.position.y, mainCamera.GetComponent<Camera>().orthographicSize+.5f);
     }
@@ -42,12 +47,11 @@ public class PlatformFactory : MonoBehaviour {
     }
 
     void GeneratePlatforms(float pos = 0f, float offset = 0f) {
-        Debug.Log(mainCamera.GetComponent<Camera>().orthographicSize);
         Vector2 newPos;
         bool overlaps;
         lastCameraYPos = mainCamera.transform.position.y;
 
-        //33% chance of having one platform
+        //50% chance of having one platform less than before
         if (Random.Range(0, 2) == 1 && platformDensity > 5) {
             platformDensity--;
         }
@@ -58,24 +62,40 @@ public class PlatformFactory : MonoBehaviour {
 
             foreach(GameObject platform in platforms){
                 //if position overlaps existing platform
-                if(Vector2.Distance(newPos, platform.transform.position) <= distanceBetweenPlateforms){
+                if(Vector2.Distance(newPos, platform.transform.position) <= distanceBetweenPlateforms || Mathf.Abs(newPos.y - platform.transform.position.y) <= distanceBetweenPlateforms) {
                     overlaps = true;
                     break;
                 }
             }
             if(!overlaps){
-                GameObject newPlatform = Instantiate(platformPrefab, newPos, platformPrefab.transform.rotation);
-                newPlatform.transform.parent = this.gameObject.transform;
-                platforms.Add(newPlatform);
+                CreatePlatform(newPos);
             }
             else {
-                //Try again
-                //if(Random.Range(0, 2) == 1)
-                  //  platformDensity++;
+                if(Random.Range(0,2) == 1)
+                    i--; //Retry
             }
-                
         }
-        Debug.Log(platformDensity);
+
+        bool spacesToFill = false; //value by default
+        platforms.Sort((v1, v2) => v1.transform.position.y.CompareTo(v2.transform.position.y)); //values will have to be sorted
+
+        //if there is too much space between two platforms (in height), fill it with a platform
+        do {
+            spacesToFill = false;
+            for (int i = 0; i < platforms.Count - 1; i++) {
+                if (platforms[i].transform.position.y + 3f < platforms[i + 1].transform.position.y) {
+                    newPos = new Vector2(Random.Range(-2.5f, 2.5f), platforms[i].transform.position.y + (platforms[i + 1].transform.position.y - platforms[i].transform.position.y) / 2);
+
+                    CreatePlatform(newPos);
+                    //Debug.Log("i:"+i+", "+platforms[i].transform.position.y+" i+1:"+ platforms[i+1].transform.position.y+" = new platform " + newPos);
+                    spacesToFill = true;
+                    platforms.Sort((v1, v2) => v1.transform.position.y.CompareTo(v2.transform.position.y));
+                }
+            }
+        } while (spacesToFill);
+
+
+        difficulty += 2;
     }
 
     void RemoveUnseeableObjects() {
@@ -89,6 +109,18 @@ public class PlatformFactory : MonoBehaviour {
                 Destroy(platformToRemove);
             }
         }
+    }
+
+    void CreatePlatform(Vector3 pos) {
+        GameObject newPlatform;
+        if (difficulty <= Random.Range(0, 100)) {
+            newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
+        }
+        else {
+            newPlatform = Instantiate(movingPlatformPrefab, pos, platformPrefab.transform.rotation);
+        }
+        newPlatform.transform.parent = this.gameObject.transform;
+        platforms.Add(newPlatform);
     }
 
 }
