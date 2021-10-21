@@ -12,4 +12,8 @@ public class UIController : MonoBehaviour
     public void quitGame() {
         Application.Quit();   
     }
+
+    public void goToMenu() {
+        SceneManager.LoadScene("TitleScreen");
+    }
 }

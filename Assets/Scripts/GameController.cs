@@ -12,10 +12,13 @@ public class GameController : MonoBehaviour {
     private GameObject player;
     private GameObject mainCamera;
     private bool gameOver = false;
+    private GameObject GameOverCanvas;
     
     void Start() {
         player = GameObject.Find("Player");
         mainCamera = GameObject.Find("Main Camera");
+        GameOverCanvas = GameObject.Find("GameOverCanvas");
+        GameOverCanvas.SetActive(false);
         score = 0;
     }
 
@@ -39,7 +42,7 @@ public class GameController : MonoBehaviour {
             }
         }
         else {
-            SceneManager.LoadScene("TitleScreen");
+            GameOverCanvas.SetActive(true);
         }
     }
 }
