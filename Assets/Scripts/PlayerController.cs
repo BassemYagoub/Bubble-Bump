@@ -23,12 +23,12 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
             //if (!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-left"))
-                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left@2x");
+            gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left@2x");
             movement += Vector3.left;
         }
         if (Input.GetKey(KeyCode.RightArrow)) {
             //if(!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-right"))
-                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
+            gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
             movement += Vector3.right;
         }
 

@@ -7,9 +7,10 @@ public class PlatformFactory : MonoBehaviour {
 
     public GameObject platformPrefab;
     public GameObject movingPlatformPrefab;
+    public GameObject breakablePlatformPrefab;
     public float distanceBetweenPlateforms;
 
-    private float difficulty = 10f; //chances (0-100%) of generating a non-simple platform
+    private float difficulty = 5f; //chances (0-100%) of generating a non-simple platform
     private int platformDensity = 25; //nb of platforms to instantiate
     private List<GameObject> platforms;
 
@@ -86,9 +87,9 @@ public class PlatformFactory : MonoBehaviour {
                 if (platforms[i].transform.position.y + 3f < platforms[i + 1].transform.position.y) {
                     newPos = new Vector2(Random.Range(-2.5f, 2.5f), platforms[i].transform.position.y + (platforms[i + 1].transform.position.y - platforms[i].transform.position.y) / 2);
 
-                    CreatePlatform(newPos);
+                    spacesToFill = CreatePlatform(newPos);
                     //Debug.Log("i:"+i+", "+platforms[i].transform.position.y+" i+1:"+ platforms[i+1].transform.position.y+" = new platform " + newPos);
-                    spacesToFill = true;
+                    //spacesToFill = true;
                     platforms.Sort((v1, v2) => v1.transform.position.y.CompareTo(v2.transform.position.y));
                 }
             }
@@ -111,16 +112,25 @@ public class PlatformFactory : MonoBehaviour {
         }
     }
 
-    void CreatePlatform(Vector3 pos) {
+    bool CreatePlatform(Vector3 pos) {
         GameObject newPlatform;
-        if (difficulty <= Random.Range(0, 100)) {
-            newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
+        bool needToAddAnotherPlatform = false;
+        float rand = Random.Range(0, 100);
+        if (rand <= difficulty*2){ //% chance to instantiate moving platform
+            //newPlatform = Instantiate(movingPlatformPrefab, pos, platformPrefab.transform.rotation);
+            newPlatform = Instantiate(breakablePlatformPrefab, pos, platformPrefab.transform.rotation);
+            needToAddAnotherPlatform = true;
         }
-        else {
-            newPlatform = Instantiate(movingPlatformPrefab, pos, platformPrefab.transform.rotation);
+        else if (rand <= difficulty*10){ //% chance to instantiate moving platform
+            newPlatform = Instantiate(breakablePlatformPrefab, pos, platformPrefab.transform.rotation);
+
+        }
+        else{ //default
+            newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
         }
         newPlatform.transform.parent = this.gameObject.transform;
         platforms.Add(newPlatform);
+        return needToAddAnotherPlatform;
     }
 
 }

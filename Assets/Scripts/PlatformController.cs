@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlatformController : MonoBehaviour {
     private bool movingRight = true; //direction for moving platforms
     public float speed = 2f;
+    private bool moveDown = false;
 
     void Start() {
         
@@ -14,17 +15,35 @@ public class PlatformController : MonoBehaviour {
     void Update() {
         if (gameObject.CompareTag("MovingPlatform"))
             MovePlatform();
+        else if (moveDown)
+        {
+            //Debug.Log("down");
+            MoveDownPlatform();
+        }
+            
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y) {
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            
-            if(other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f){
-                other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
+        if (other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y)
+        {
+            if (gameObject.tag == "BreakablePlatform")
+            {
+                //change sprite & move down platform
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/game-tiles@2x_34");
+                moveDown = true;
+            }
+            else
+            {
+                PlayerController player = other.gameObject.GetComponent<PlayerController>();
+
+                if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f)
+                {
+                    other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
+                }
             }
         }
+
     }
 
 
@@ -42,4 +61,11 @@ public class PlatformController : MonoBehaviour {
         if (transform.position.x == -2.5f || transform.position.x == 2.5f)
             movingRight = !movingRight;
     }
+
+    void MoveDownPlatform() { 
+        Vector3 target = new Vector3(transform.position.x, 0, transform.position.z);
+        float step = speed * Time.deltaTime; // calculate distance to move
+        transform.position = Vector3.MoveTowards(transform.position, target, step);   
+    }
+
 }
