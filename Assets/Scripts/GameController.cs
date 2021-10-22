@@ -12,13 +12,15 @@ public class GameController : MonoBehaviour {
     private GameObject player;
     private GameObject mainCamera;
     private bool gameOver = false;
-    private GameObject GameOverCanvas;
+    private GameObject GameOver; 
+    private GameObject EndScore;
     
     void Start() {
         player = GameObject.Find("Player");
         mainCamera = GameObject.Find("Main Camera");
-        GameOverCanvas = GameObject.Find("GameOverCanvas");
-        GameOverCanvas.SetActive(false);
+        GameOver = GameObject.Find("GameOver");
+        EndScore = GameOver.transform.Find("EndScore").gameObject;
+        GameOver.SetActive(false);
         score = 0;
     }
 
@@ -42,7 +44,8 @@ public class GameController : MonoBehaviour {
             }
         }
         else {
-            GameOverCanvas.SetActive(true);
+            GameOver.SetActive(true);
+            EndScore.GetComponent<TextMeshProUGUI>().text = "your score: " + scoreText.GetComponent<TextMeshProUGUI>().text;
         }
     }
 }
