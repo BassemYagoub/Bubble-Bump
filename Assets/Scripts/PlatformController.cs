@@ -24,22 +24,16 @@ public class PlatformController : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Player") && other.transform.position.y >= transform.position.y)
-        {
-            if (gameObject.tag == "BreakablePlatform")
-            {
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -3.5f) {
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            if (gameObject.tag == "BreakablePlatform") {
                 //change sprite & move down platform
                 gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/game-tiles@2x_34");
                 moveDown = true;
             }
-            else
-            {
-                PlayerController player = other.gameObject.GetComponent<PlayerController>();
-                if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -3f)
-                {
-                    other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
-                }
+            else {
+                other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
             }
         }
 
@@ -63,7 +57,7 @@ public class PlatformController : MonoBehaviour {
 
     void MoveDownPlatform() {
         //MoveTowards weirdly not working
-        transform.position = new Vector3(transform.position.x, transform.position.y-0.06f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y-0.02f, transform.position.z);
     }
 
 }

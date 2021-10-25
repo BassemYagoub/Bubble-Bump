@@ -8,6 +8,7 @@ public class PlatformFactory : MonoBehaviour {
     public GameObject platformPrefab;
     public GameObject movingPlatformPrefab;
     public GameObject breakablePlatformPrefab;
+    public GameObject springPrefab;
     public float distanceBetweenPlateforms;
 
     private float difficulty = 5f; //chances (0-100%) of generating a non-simple platform
@@ -124,6 +125,12 @@ public class PlatformFactory : MonoBehaviour {
         }
         else{ //default
             newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
+
+            //spring on top of platform
+            if (Random.Range(0, 10) <= 1) {
+                GameObject newSpring = Instantiate(springPrefab, new Vector3(pos.x, pos.y + 0.19f, pos.z), springPrefab.transform.rotation);
+                newSpring.transform.parent = newPlatform.gameObject.transform;
+            }
         }
 
         newPlatform.transform.parent = this.gameObject.transform;
