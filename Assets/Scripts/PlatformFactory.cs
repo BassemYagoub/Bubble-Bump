@@ -88,7 +88,7 @@ public class PlatformFactory : MonoBehaviour {
                     newPos = new Vector2(Random.Range(-2.5f, 2.5f), platforms[i].transform.position.y + (platforms[i + 1].transform.position.y - platforms[i].transform.position.y) / 2);
 
                     CreatePlatform(newPos, false);
-                    Debug.Log("i:"+i+", "+platforms[i].transform.position.y+" i+1:"+ platforms[i+1].transform.position.y+" = new platform " + newPos);
+                    //Debug.Log("i:"+i+", "+platforms[i].transform.position.y+" i+1:"+ platforms[i+1].transform.position.y+" = new platform " + newPos);
                     spacesToFill = true;
                     platforms.Sort((v1, v2) => v1.transform.position.y.CompareTo(v2.transform.position.y));
                 }
@@ -119,7 +119,7 @@ public class PlatformFactory : MonoBehaviour {
         if (rand <= difficulty*1){ //% chance to instantiate moving platform
             newPlatform = Instantiate(movingPlatformPrefab, pos, platformPrefab.transform.rotation);
         }
-        else if (rand <= difficulty*3 && breakable) { //% chance to instantiate breakable platform
+        else if (rand <= difficulty*3 && breakable && !platforms[platforms.Count-1].CompareTag("BreakablePlatform")) { //% chance to instantiate breakable platform
             newPlatform = Instantiate(breakablePlatformPrefab, pos, platformPrefab.transform.rotation);
         }
         else{ //default

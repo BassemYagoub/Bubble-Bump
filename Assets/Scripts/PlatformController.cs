@@ -35,8 +35,7 @@ public class PlatformController : MonoBehaviour {
             else
             {
                 PlayerController player = other.gameObject.GetComponent<PlayerController>();
-
-                if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f)
+                if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -3f)
                 {
                     other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce, ForceMode2D.Impulse);
@@ -62,10 +61,9 @@ public class PlatformController : MonoBehaviour {
             movingRight = !movingRight;
     }
 
-    void MoveDownPlatform() { 
-        Vector3 target = new Vector3(transform.position.x, 0, transform.position.z);
-        float step = speed * Time.deltaTime; // calculate distance to move
-        transform.position = Vector3.MoveTowards(transform.position, target, step);   
+    void MoveDownPlatform() {
+        //MoveTowards weirdly not working
+        transform.position = new Vector3(transform.position.x, transform.position.y-0.06f, transform.position.z);
     }
 
 }
