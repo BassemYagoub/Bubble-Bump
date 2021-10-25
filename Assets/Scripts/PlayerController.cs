@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody2D playerRb;
     private bool isJumping = false;
+    private string previousSprite;
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
@@ -22,13 +23,23 @@ public class PlayerController : MonoBehaviour {
         Vector3 movement = Vector3.zero;
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
-            //if (!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-left"))
-            gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left@2x");
+            if (!isJumping) {
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left@2x");
+            }
+            else {
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left-odskok@2x");
+                previousSprite = "lik-left@2x";
+            }
             movement += Vector3.left;
         }
         if (Input.GetKey(KeyCode.RightArrow)) {
-            //if(!gameObject.GetComponent<SpriteRenderer>().sprite.name.Contains("lik-right"))
-            gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
+            if (!isJumping) {
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
+            }
+            else {
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right-odskok@2x");
+                previousSprite = "lik-right@2x";
+            }
             movement += Vector3.right;
         }
 
@@ -58,7 +69,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private IEnumerator JumpAnimation() {
-        string previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+        previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite.Substring(0, previousSprite.Length-3) +"-odskok@2x");
         gameObject.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(.45f);
