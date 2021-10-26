@@ -69,7 +69,7 @@ public class PlatformFactory : MonoBehaviour {
                     break;
                 }
             }
-            if(!overlaps){
+            if(!overlaps) {
                 CreatePlatform(newPos);
             }
             else {
@@ -81,12 +81,30 @@ public class PlatformFactory : MonoBehaviour {
         bool spacesToFill = false; //value by default
         platforms.Sort((v1, v2) => v1.transform.position.y.CompareTo(v2.transform.position.y)); //values will have to be sorted
 
+        //to avoid having 2 breakable platforms in a row
+        for (int i = 0; i < platforms.Count-1; i++) {
+            if (platforms[i].CompareTag("BreakablePlatform") && platforms[i+1].CompareTag("BreakablePlatform")) {
+                Debug.Log("replace breakable at" + platforms[i + 1].transform.position);
+                GameObject platformToRemove = platforms[i + 1];
+                Destroy(platformToRemove);
+                platforms[i + 1] = Instantiate(platformPrefab, platforms[i + 1].transform.position, platformPrefab.transform.rotation);
+                platforms[i+1].transform.parent = this.gameObject.transform;
+            }
+        }
+
         //if there is too much space between two platforms (in height), fill it with a platform
         do {
             spacesToFill = false;
             for (int i = 0; i < platforms.Count - 1; i++) {
-                if (platforms[i].transform.position.y + 3f < platforms[i + 1].transform.position.y || (i<platforms.Count-2 && platforms[i + 1].CompareTag("BreakablePlatform") && platforms[i].transform.position.y + 3f < platforms[i + 2].transform.position.y)) {
+                if (platforms[i].transform.position.y + 3f < platforms[i + 1].transform.position.y || (i < platforms.Count - 2 && platforms[i + 1].CompareTag("BreakablePlatform") && platforms[i].transform.position.y + 3f < platforms[i + 2].transform.position.y)) {
+
                     newPos = new Vector2(Random.Range(-2.5f, 2.5f), platforms[i].transform.position.y + (platforms[i + 1].transform.position.y - platforms[i].transform.position.y) / 2);
+
+                    //2nd case
+                    if (i < platforms.Count - 2 && platforms[i + 1].CompareTag("BreakablePlatform") && platforms[i].transform.position.y + 3f < platforms[i + 2].transform.position.y) {
+                        if((platforms[i + 2].transform.position.y - platforms[i + 1].transform.position.y) > (platforms[i + 1].transform.position.y - platforms[i].transform.position.y))
+                            newPos = new Vector2(Random.Range(-2.5f, 2.5f), platforms[i+1].transform.position.y + (platforms[i + 2].transform.position.y - platforms[i+1].transform.position.y) / 2);
+                    }
 
                     CreatePlatform(newPos, false);
                     //Debug.Log("i:"+i+", "+platforms[i].transform.position.y+" i+1:"+ platforms[i+1].transform.position.y+" = new platform " + newPos);
@@ -105,7 +123,7 @@ public class PlatformFactory : MonoBehaviour {
         GameObject platformToRemove = null;
 
         for(int i=platforms.Count-1; i>=0; i--) {
-            if (platforms[i].transform.position.y<triggerDistance) {
+            if (platforms[i].transform.position.y<triggerDistance-0.5f) {
                 platformToRemove = platforms[i];
                 platforms.RemoveAt(i);
                 Destroy(platformToRemove);
@@ -120,17 +138,18 @@ public class PlatformFactory : MonoBehaviour {
         if (rand <= difficulty*1){ //% chance to instantiate moving platform
             newPlatform = Instantiate(movingPlatformPrefab, pos, platformPrefab.transform.rotation);
         }
-        else if (rand <= difficulty*3 && breakable && !platforms[platforms.Count-1].CompareTag("BreakablePlatform")) { //% chance to instantiate breakable platform
+        else if (rand <= difficulty*3 && breakable) { //% chance to instantiate breakable platform
             newPlatform = Instantiate(breakablePlatformPrefab, pos, platformPrefab.transform.rotation);
         }
         else{ //default
             newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
+        }
 
-            //spring on top of platform
-            if (Random.Range(0, 10) <= 1) {
-                GameObject newSpring = Instantiate(springPrefab, new Vector3(pos.x, pos.y + 0.19f, pos.z), springPrefab.transform.rotation);
-                newSpring.transform.parent = newPlatform.gameObject.transform;
-            }
+        //spring on top of unbreakable platform
+        if (Random.Range(0, 10) <= 1 && !newPlatform.CompareTag("BreakablePlatform")) {
+            float xPosOffset = Random.Range(-0.4f, 0.4f);
+            GameObject newSpring = Instantiate(springPrefab, new Vector3(pos.x+xPosOffset, pos.y + 0.2f, pos.z), springPrefab.transform.rotation);
+            newSpring.transform.parent = newPlatform.gameObject.transform;
         }
 
         newPlatform.transform.parent = this.gameObject.transform;

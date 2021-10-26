@@ -24,7 +24,7 @@ public class PlatformController : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -3.5f) {
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -4f) {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (gameObject.tag == "BreakablePlatform") {
                 //change sprite & move down platform
