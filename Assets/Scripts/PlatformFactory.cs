@@ -9,7 +9,7 @@ public class PlatformFactory : MonoBehaviour {
     public GameObject movingPlatformPrefab;
     public GameObject breakablePlatformPrefab;
     public GameObject springPrefab;
-    public float distanceBetweenPlateforms;
+    public float distanceBetweenPlatforms;
 
     private float difficulty = 5f; //chances (0-100%) of generating a non-simple platform
     private int platformDensity = 35; //nb of platforms to instantiate
@@ -64,7 +64,7 @@ public class PlatformFactory : MonoBehaviour {
 
             foreach(GameObject platform in platforms){
                 //if position overlaps existing platform
-                if(Vector2.Distance(newPos, platform.transform.position) <= distanceBetweenPlateforms || Mathf.Abs(newPos.y - platform.transform.position.y) <= distanceBetweenPlateforms) {
+                if(Vector2.Distance(newPos, platform.transform.position) <= distanceBetweenPlatforms || Mathf.Abs(newPos.y - platform.transform.position.y) <= distanceBetweenPlatforms) {
                     overlaps = true;
                     break;
                 }

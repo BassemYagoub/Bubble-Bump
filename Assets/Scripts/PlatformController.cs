@@ -28,7 +28,7 @@ public class PlatformController : MonoBehaviour {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (gameObject.tag == "BreakablePlatform") {
                 //change sprite & move down platform
-                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/game-tiles@2x_34");
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("game-tiles@2x_34");
                 moveDown = true;
             }
             else {

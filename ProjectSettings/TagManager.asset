@@ -8,6 +8,8 @@ TagManager:
   - MovingPlatform
   - BreakablePlatform
   - Spring
+  - MovingEnemy
+  - TiltingEnemy
   layers:
   - Default
   - TransparentFX
