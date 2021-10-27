@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator JumpAnimation() {
         previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite.Substring(0, previousSprite.Length-3) +"-odskok@2x");
-        gameObject.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(.45f);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
         isJumping = false;

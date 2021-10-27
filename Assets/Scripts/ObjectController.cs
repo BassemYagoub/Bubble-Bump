@@ -18,6 +18,7 @@ public class ObjectController : MonoBehaviour {
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -2f) {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (gameObject.CompareTag("Spring")) {
+                gameObject.GetComponent<AudioSource>().Play();
                 gameObject.GetComponent<SpriteRenderer>().sprite = springActivatedSprite;
 
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z);
