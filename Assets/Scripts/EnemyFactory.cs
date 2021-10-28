@@ -73,7 +73,7 @@ public class EnemyFactory : MonoBehaviour
         lastCameraYPos = mainCamera.transform.position.y;
 
         for (int i = 0; i < nbEnnemies; i++) {
-            newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(1f + pos + offset, (mainCamera.GetComponent<Camera>().orthographicSize * 4) + pos));
+            newPos = new Vector2(Random.Range(-2.2f, 2.2f), Random.Range(1f + pos + offset, (mainCamera.GetComponent<Camera>().orthographicSize * 4) + pos));
             overlaps = false;
 
             foreach (Transform platform in platforms.transform) {
