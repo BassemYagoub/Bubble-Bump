@@ -73,8 +73,11 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.GetComponent<EnemyController>() != null) {
             //player jumping on enemy
-            if (collision.transform.position.y <= transform.position.y) {
+            if (collision.transform.position.y <= transform.position.y+0.2f) {
                 ennemies.GetComponent<EnemyFactory>().ennemies.Remove(collision.gameObject);
+
+                gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 Destroy(collision.gameObject);
             }
             //game over when player touches enemy
