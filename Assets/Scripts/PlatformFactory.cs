@@ -9,6 +9,8 @@ public class PlatformFactory : MonoBehaviour {
     public GameObject movingPlatformPrefab;
     public GameObject breakablePlatformPrefab;
     public GameObject springPrefab;
+    public GameObject propellerPrefab;
+    public GameObject jetPackPrefab;
     public float distanceBetweenPlateforms;
 
     private float difficulty = 5f; //chances (0-100%) of generating a non-simple platform
@@ -84,7 +86,7 @@ public class PlatformFactory : MonoBehaviour {
         //to avoid having 2 breakable platforms in a row
         for (int i = 0; i < platforms.Count-1; i++) {
             if (platforms[i].CompareTag("BreakablePlatform") && platforms[i+1].CompareTag("BreakablePlatform")) {
-                Debug.Log("replace breakable at" + platforms[i + 1].transform.position);
+                //Debug.Log("replace breakable at" + platforms[i + 1].transform.position);
                 GameObject platformToRemove = platforms[i + 1];
                 Destroy(platformToRemove);
                 platforms[i + 1] = Instantiate(platformPrefab, platforms[i + 1].transform.position, platformPrefab.transform.rotation);
@@ -123,7 +125,7 @@ public class PlatformFactory : MonoBehaviour {
         GameObject platformToRemove = null;
 
         for(int i=platforms.Count-1; i>=0; i--) {
-            if (platforms[i].transform.position.y<triggerDistance-0.5f) {
+            if (platforms[i].transform.position.y<triggerDistance-0.3f) {
                 platformToRemove = platforms[i];
                 platforms.RemoveAt(i);
                 Destroy(platformToRemove);
@@ -145,11 +147,23 @@ public class PlatformFactory : MonoBehaviour {
             newPlatform = Instantiate(platformPrefab, pos, platformPrefab.transform.rotation);
         }
 
-        //spring on top of unbreakable platform
+        //objects on top of unbreakable platform
         if (Random.Range(0, 10) <= 1 && !newPlatform.CompareTag("BreakablePlatform")) {
-            float xPosOffset = Random.Range(-0.4f, 0.4f);
-            GameObject newSpring = Instantiate(springPrefab, new Vector3(pos.x+xPosOffset, pos.y + 0.2f, pos.z), springPrefab.transform.rotation);
-            newSpring.transform.parent = newPlatform.gameObject.transform;
+            float xPosOffset = Random.Range(-0.35f, 0.35f);
+            float yPosOffset = newPlatform.GetComponent<Renderer>().bounds.size.y;
+            float randPercentage = Random.Range(0, 100);
+            GameObject newObject;
+
+            if (randPercentage < 70) // 70% chances of getting spring
+                newObject = Instantiate(springPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset-0.1f, pos.z), springPrefab.transform.rotation);
+            else if (randPercentage >= 70 && randPercentage < 90) //20% chance of getting propeller
+                newObject = Instantiate(propellerPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset - 0.05f, pos.z), propellerPrefab.transform.rotation);
+            else //10% chance of getting jetpack
+                 {
+                newObject = Instantiate(jetPackPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset + 0.2f, pos.z), jetPackPrefab.transform.rotation);
+            }
+
+            newObject.transform.parent = newPlatform.gameObject.transform;
         }
 
         newPlatform.transform.parent = this.gameObject.transform;

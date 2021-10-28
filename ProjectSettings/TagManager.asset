@@ -8,11 +8,13 @@ TagManager:
   - MovingPlatform
   - BreakablePlatform
   - Spring
+  - Jetpack
+  - Propeller
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Objects
   - Water
   - UI
   - Platform

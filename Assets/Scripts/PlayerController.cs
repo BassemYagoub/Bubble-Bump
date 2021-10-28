@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D playerRb;
     private bool isJumping = false;
     private string previousSprite;
+    private bool activatePropeller = false;
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
@@ -44,6 +45,11 @@ public class PlayerController : MonoBehaviour {
         }
 
         transform.position += movement * speed * Time.deltaTime;
+
+        if (gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f) {
+            gameObject.GetComponent<Animator>().SetBool("PropellerActivated", false);
+            gameObject.GetComponent<Animator>().SetBool("JetpackActivated", false);
+        }
     }
 
 
@@ -75,6 +81,14 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(.45f);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
         isJumping = false;
+    }
+
+    public IEnumerator PropellerAnimation() {
+        Debug.Log("aaa");
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        activatePropeller = true;
+        yield return new WaitForSeconds(.4f);
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
 }
