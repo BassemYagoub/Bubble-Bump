@@ -13,13 +13,13 @@ public class PlayerController : MonoBehaviour {
     private string previousSprite;
 
     private GameObject mainCamera;
-    private GameObject ennemies;
+    private GameObject enemies;
     private Transform jetpackTransform;
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
         mainCamera = GameObject.Find("Main Camera");
-        ennemies = GameObject.Find("Enemies");
+        enemies = GameObject.Find("Enemies");
         jetpackTransform = gameObject.transform.GetChild(1).transform;
     }
 
@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour {
         if (gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f) {
             gameObject.GetComponent<Animator>().SetBool("PropellerActivated", false);
             gameObject.GetComponent<Animator>().SetBool("JetpackActivated", false);
+            enemies.GetComponent<EnemyFactory>().setBonusIsActive(false); //reactivate enemy factory
         }
     }
 
@@ -85,9 +86,9 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.GetComponent<EnemyController>() != null) {
-            //player jumping on enemy
-            if (collision.transform.position.y <= transform.position.y+0.2f) {
-                ennemies.GetComponent<EnemyFactory>().ennemies.Remove(collision.gameObject);
+            //player jumping on enemy with tag
+            if (!collision.gameObject.CompareTag("Untagged") && collision.transform.position.y <= transform.position.y+0.2f) {
+                enemies.GetComponent<EnemyFactory>().enemies.Remove(collision.gameObject);
 
                 gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);

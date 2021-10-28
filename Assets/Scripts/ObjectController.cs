@@ -5,9 +5,10 @@ using UnityEngine;
 public class ObjectController : MonoBehaviour {
     public float speed = 2f;
     public Sprite objectActivatedSprite;
+    private EnemyFactory enemyFactory;
 
     void Start() {
-
+        enemyFactory = GameObject.Find("Enemies").GetComponent<EnemyFactory>();
     }
 
     void Update() {
@@ -28,12 +29,14 @@ public class ObjectController : MonoBehaviour {
             else if (gameObject.CompareTag("Propeller")) {
                 other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce * 2.5f, ForceMode2D.Impulse);
                 other.gameObject.GetComponent<Animator>().SetBool("PropellerActivated", true);
+                enemyFactory.setBonusIsActive(true); //deactivate enemy factory
                 //StartCoroutine(player.PropellerAnimation());
                 Destroy(gameObject);
             }
             else if (gameObject.CompareTag("Jetpack")) {
                 other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce * 4f, ForceMode2D.Impulse);
                 other.gameObject.GetComponent<Animator>().SetBool("JetpackActivated", true);
+                enemyFactory.setBonusIsActive(true); //deactivate enemy factory
                 Destroy(gameObject);
             }
         }

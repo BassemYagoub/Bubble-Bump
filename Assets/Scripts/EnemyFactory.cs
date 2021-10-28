@@ -8,7 +8,7 @@ public class EnemyFactory : MonoBehaviour
     public GameObject pinkEnemyPrefab;
     public GameObject ghostEnemyPrefab;
     public GameObject blackHolePrefab;
-    public List<GameObject> ennemies;
+    public List<GameObject> enemies;
     private GameObject mainCamera;
     private GameObject player;
     private int nextUpdate = 1; // Next update in second
@@ -17,13 +17,14 @@ public class EnemyFactory : MonoBehaviour
     private int nbEnnemies = 2; //nb of ennemies to instantiate
     private GameObject platforms;
     public float distanceBetweenPlatforms; //distance between ennemy and platforms
+    private bool bonusIsActive = false;
 
     // Start is called before the first frame update
     void Start(){
         player = GameObject.Find("Player");
         mainCamera = GameObject.Find("Main Camera");
         platforms = GameObject.Find("Platforms");
-        ennemies = new List<GameObject>();
+        enemies = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -36,24 +37,24 @@ public class EnemyFactory : MonoBehaviour
             RemoveUnseeableObjects();
         }
 
-        //Generate new platforms if player reaches border of camera height
-        if (mainCamera.transform.position.y > lastCameraYPos + (mainCamera.GetComponent<Camera>().orthographicSize * 2))
-            GenerateEnnemies(mainCamera.transform.position.y, mainCamera.GetComponent<Camera>().orthographicSize + .5f);
+        //Generate new enemies if player reaches border of camera height
+        if (!bonusIsActive && mainCamera.transform.position.y > lastCameraYPos + (mainCamera.GetComponent<Camera>().orthographicSize * 2))
+            GenerateEnemies(mainCamera.transform.position.y, mainCamera.GetComponent<Camera>().orthographicSize + .5f);
     }
 
     void CreateEnemy(Vector3 pos){
         GameObject newEnemy;
         float rand = Random.Range(0, 100);
 
-        if (rand <= difficulty + 4) {
-            float scale = Random.Range(0, 1);
+        if (rand <= difficulty) {
+            float scale = Random.Range(0.5f, 1);
             newEnemy = Instantiate(blackHolePrefab, pos, blackHolePrefab.transform.rotation);
             newEnemy.transform.localScale = new Vector3(scale, scale, scale);
         }
-        else if (rand <= difficulty + 2) {
+        else if (rand <= difficulty*0.8) {
             newEnemy = Instantiate(ghostEnemyPrefab, pos, ghostEnemyPrefab.transform.rotation);
         }
-        else if (rand <= difficulty) { 
+        else if (rand <= difficulty*0.5) { 
             newEnemy = Instantiate(pinkEnemyPrefab, pos, pinkEnemyPrefab.transform.rotation);
         }
         else {
@@ -61,23 +62,23 @@ public class EnemyFactory : MonoBehaviour
         }
 
         newEnemy.transform.parent = this.gameObject.transform;
-        ennemies.Add(newEnemy);
+        enemies.Add(newEnemy);
     }
 
     void RemoveUnseeableObjects() {
         float triggerDistance = mainCamera.transform.position.y - mainCamera.GetComponent<Camera>().orthographicSize;
         GameObject ennemyToRemove = null;
 
-        for (int i = ennemies.Count - 1; i >= 0; i--) {
-            if (ennemies[i].transform.position.y < triggerDistance - 0.5f) {
-                ennemyToRemove = ennemies[i];
-                ennemies.RemoveAt(i);
+        for (int i = enemies.Count - 1; i >= 0; i--) {
+            if (enemies[i].transform.position.y < triggerDistance - 0.5f) {
+                ennemyToRemove = enemies[i];
+                enemies.RemoveAt(i);
                 Destroy(ennemyToRemove);
             }
         }
     }
 
-    void GenerateEnnemies(float pos = 0f, float offset = 0f) {
+    void GenerateEnemies(float pos = 0f, float offset = 0f) {
         Vector2 newPos = new Vector2(Random.Range(-2.5f, 2.5f), Random.Range(1f + pos + offset, (mainCamera.GetComponent<Camera>().orthographicSize * 4) + pos));
         bool overlaps;
         lastCameraYPos = mainCamera.transform.position.y;
@@ -105,6 +106,17 @@ public class EnemyFactory : MonoBehaviour
 
         if (difficulty < 90f)
             difficulty += 2;
+    }
+
+    public void setBonusIsActive(bool active) {
+        bonusIsActive = active;
+        //destroy already created enemies when bonus is active
+        if (active) {
+            foreach (GameObject enemy in enemies) {
+                Destroy(enemy);
+            }
+            enemies.Clear();
+        }
     }
 
 }
