@@ -10,6 +10,8 @@ TagManager:
   - Spring
   - Jetpack
   - Propeller
+  - MovingEnemy
+  - TiltingEnemy
   layers:
   - Default
   - TransparentFX

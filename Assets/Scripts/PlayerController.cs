@@ -13,8 +13,13 @@ public class PlayerController : MonoBehaviour {
     private string previousSprite;
     private bool activatePropeller = false;
 
+    private GameObject mainCamera;
+    private GameObject ennemies; 
+
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
+        mainCamera = GameObject.Find("Main Camera");
+        ennemies = GameObject.Find("Enemies");
     }
 
     // Update is called once per frame
@@ -54,12 +59,27 @@ public class PlayerController : MonoBehaviour {
 
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag("Platform") && collision.transform.position.y <= transform.position.y+gameObject.GetComponent<BoxCollider2D>().bounds.size.y) {
+        if (collision.gameObject.CompareTag("Platform") && collision.transform.position.y <= transform.position.y + gameObject.GetComponent<BoxCollider2D>().bounds.size.y) {
             //playerRb.velocity = Vector2.zero;
             //playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             if (!isJumping) {
                 isJumping = true;
                 StartCoroutine(JumpAnimation());
+            }
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.GetComponent<EnemyController>() != null) {
+            //player jumping on enemy
+            if (collision.transform.position.y <= transform.position.y) {
+                ennemies.GetComponent<EnemyFactory>().ennemies.Remove(collision.gameObject);
+                Destroy(collision.gameObject);
+            }
+            //game over when player touches enemy
+            else {
+                mainCamera.GetComponent<GameController>().EndGame();
             }
         }
     }
@@ -77,7 +97,6 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator JumpAnimation() {
         previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite.Substring(0, previousSprite.Length-3) +"-odskok@2x");
-        gameObject.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(.45f);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
         isJumping = false;

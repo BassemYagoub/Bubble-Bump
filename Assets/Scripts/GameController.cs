@@ -38,14 +38,21 @@ public class GameController : MonoBehaviour {
 
             //game state management
             if (player.transform.position.y < mainCamera.transform.position.y - 5.9f) {
-                gameOver = true;
-                Destroy(player);
-                //Debug.Log("Game Over");
+                gameOver = true;  
             }
         }
         else {
-            GameOver.SetActive(true);
-            EndScore.GetComponent<TextMeshProUGUI>().text = "your score: " + scoreText.GetComponent<TextMeshProUGUI>().text;
+            Destroy(player);
+            ShowGameOver();
         }
+    }
+
+    void ShowGameOver() {
+        GameOver.SetActive(true);
+        EndScore.GetComponent<TextMeshProUGUI>().text = "your score: " + scoreText.GetComponent<TextMeshProUGUI>().text;
+    }
+
+    public void EndGame() {
+        gameOver = true;
     }
 }

@@ -21,7 +21,7 @@ public class ObjectController : MonoBehaviour {
 
             if (gameObject.CompareTag("Spring") ) {
                 other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * player.jumpForce * 1.5f, ForceMode2D.Impulse);
-
+                gameObject.GetComponent<AudioSource>().Play();
                 gameObject.GetComponent<SpriteRenderer>().sprite = objectActivatedSprite;
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z); 
             }

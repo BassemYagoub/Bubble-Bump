@@ -26,10 +26,10 @@ public class PlatformController : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D other) {
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Rigidbody2D>().velocity.y <= -4f && other.gameObject.transform.position.y > transform.position.y+0.2f) {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
-
+            gameObject.GetComponent<AudioSource>().Play();
             if (gameObject.tag == "BreakablePlatform") {
                 //change sprite & move down platform
-                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/game-tiles@2x_34");
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("game-tiles@2x_34");
                 moveDown = true;
             }
             else {
