@@ -6,6 +6,8 @@ public class EnemyFactory : MonoBehaviour
 {
     public GameObject redEnemyPrefab;
     public GameObject pinkEnemyPrefab;
+    public GameObject ghostEnemyPrefab;
+    public GameObject blackHolePrefab;
     public List<GameObject> ennemies;
     private GameObject mainCamera;
     private GameObject player;
@@ -43,10 +45,18 @@ public class EnemyFactory : MonoBehaviour
         GameObject newEnemy;
         float rand = Random.Range(0, 100);
 
-        if (rand <= difficulty * 1){ //% chance to instantiate moving platform
+        if (rand <= difficulty + 4) {
+            float scale = Random.Range(0, 1);
+            newEnemy = Instantiate(blackHolePrefab, pos, blackHolePrefab.transform.rotation);
+            newEnemy.transform.localScale = new Vector3(scale, scale, scale);
+        }
+        else if (rand <= difficulty + 2) {
+            newEnemy = Instantiate(ghostEnemyPrefab, pos, ghostEnemyPrefab.transform.rotation);
+        }
+        else if (rand <= difficulty) { 
             newEnemy = Instantiate(pinkEnemyPrefab, pos, pinkEnemyPrefab.transform.rotation);
         }
-        else{ //% chance to instantiate breakable platform
+        else {
             newEnemy = Instantiate(redEnemyPrefab, pos, redEnemyPrefab.transform.rotation);
         }
 

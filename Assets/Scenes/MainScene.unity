@@ -2129,6 +2129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redEnemyPrefab: {fileID: 1831422589341438970, guid: f55a719a4783df34ebfcb690d2709296, type: 3}
   pinkEnemyPrefab: {fileID: 1831422589341438970, guid: eff0e4ff9b5179246924f0684557c7c4, type: 3}
+  ghostEnemyPrefab: {fileID: 1831422589341438970, guid: a562a6b58bc41c142926ba1c2a380fb7, type: 3}
+  blackHolePrefab: {fileID: 1831422589341438970, guid: 5173a9bf8caeb3e499eb16636b9f9d9f, type: 3}
   ennemies: []
   distanceBetweenPlatforms: 2
 --- !u!1 &1862133373

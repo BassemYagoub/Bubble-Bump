@@ -46,8 +46,18 @@ public class EnemyController : MonoBehaviour
 
         float step = speed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, target, step);
-        if (transform.position.x == -2.5f || transform.position.x == 2.5f)
+        if (transform.position.x == -2.5f || transform.position.x == 2.5f) {
+            //change direction
             movingRight = !movingRight;
+            //change sprite
+            string previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+            previousSprite = previousSprite.Split(char.Parse("-"))[0];
+            if (movingRight)
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite + "-right@2x");
+            else
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite + "-left@2x");
+        }
+            
     }
 
     private void tiltEnemy(){
