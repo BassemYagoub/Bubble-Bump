@@ -158,8 +158,7 @@ public class PlatformFactory : MonoBehaviour {
                 newObject = Instantiate(springPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset-0.1f, pos.z), springPrefab.transform.rotation);
             else if (randPercentage >= 70 && randPercentage < 90) //20% chance of getting propeller
                 newObject = Instantiate(propellerPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset - 0.05f, pos.z), propellerPrefab.transform.rotation);
-            else //10% chance of getting jetpack
-                 {
+            else {//10% chance of getting jetpack
                 newObject = Instantiate(jetPackPrefab, new Vector3(pos.x + xPosOffset, pos.y + yPosOffset + 0.2f, pos.z), jetPackPrefab.transform.rotation);
             }
 

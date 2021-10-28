@@ -11,15 +11,16 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D playerRb;
     private bool isJumping = false;
     private string previousSprite;
-    private bool activatePropeller = false;
 
     private GameObject mainCamera;
-    private GameObject ennemies; 
+    private GameObject ennemies;
+    private Transform jetpackTransform;
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
         mainCamera = GameObject.Find("Main Camera");
         ennemies = GameObject.Find("Enemies");
+        jetpackTransform = gameObject.transform.GetChild(1).transform;
     }
 
     // Update is called once per frame
@@ -36,9 +37,15 @@ public class PlayerController : MonoBehaviour {
                 gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-left-odskok@2x");
                 previousSprite = "lik-left@2x";
             }
+
+            //reverse jetpack sprite if needed
+            if (jetpackTransform.localPosition.x < 0) {
+                MirrorJetPack();
+            }
+
             movement += Vector3.left;
         }
-        if (Input.GetKey(KeyCode.RightArrow)) {
+        else if (Input.GetKey(KeyCode.RightArrow)) {
             if (!isJumping) {
                 gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
             }
@@ -46,6 +53,12 @@ public class PlayerController : MonoBehaviour {
                 gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right-odskok@2x");
                 previousSprite = "lik-right@2x";
             }
+
+            //reverse jetpack sprite if needed
+            if (jetpackTransform.localPosition.x > 0) {
+                MirrorJetPack();
+            }
+
             movement += Vector3.right;
         }
 
@@ -105,12 +118,11 @@ public class PlayerController : MonoBehaviour {
         isJumping = false;
     }
 
-    public IEnumerator PropellerAnimation() {
-        Debug.Log("aaa");
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        activatePropeller = true;
-        yield return new WaitForSeconds(.4f);
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
-    }
 
+    private void MirrorJetPack() {
+        Vector3 jetpackPos = jetpackTransform.localPosition;
+        jetpackTransform.transform.localPosition = new Vector3((-1) * jetpackPos.x, jetpackPos.y, jetpackPos.z);
+        Quaternion jetpackRot = jetpackTransform.rotation;
+        jetpackTransform.rotation = new Quaternion(jetpackRot.x, (-1) * jetpackRot.y, jetpackRot.z, jetpackRot.w);
+    }
 }
