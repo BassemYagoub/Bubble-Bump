@@ -14,7 +14,7 @@ public class PlatformFactory : MonoBehaviour {
     public float distanceBetweenPlatforms;
 
     private float difficulty = 5f; //chances (0-100%) of generating a non-simple platform
-    private int platformDensity = 35; //nb of platforms to instantiate
+    private int platformDensity = 40; //nb of platforms to instantiate
     private List<GameObject> platforms;
 
     private GameObject player;
@@ -125,7 +125,7 @@ public class PlatformFactory : MonoBehaviour {
         GameObject platformToRemove = null;
 
         for(int i=platforms.Count-1; i>=0; i--) {
-            if (platforms[i].transform.position.y<triggerDistance-0.3f) {
+            if (platforms[i].transform.position.y<triggerDistance-0.2f) {
                 platformToRemove = platforms[i];
                 platforms.RemoveAt(i);
                 Destroy(platformToRemove);
@@ -148,7 +148,7 @@ public class PlatformFactory : MonoBehaviour {
         }
 
         //objects on top of unbreakable platform
-        if (Random.Range(0, 10) <= 1 && !newPlatform.CompareTag("BreakablePlatform")) {
+        if (Random.Range(0, 10) == 0 && !newPlatform.CompareTag("BreakablePlatform")) {
             float xPosOffset = Random.Range(-0.35f, 0.35f);
             float yPosOffset = newPlatform.GetComponent<Renderer>().bounds.size.y;
             float randPercentage = Random.Range(0, 100);

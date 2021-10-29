@@ -58,7 +58,7 @@ public class PlatformController : MonoBehaviour {
 
     void MoveDownPlatform() {
         //MoveTowards weirdly not working
-        transform.position = new Vector3(transform.position.x, transform.position.y-0.02f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y-0.04f, transform.position.z);
     }
 
 }

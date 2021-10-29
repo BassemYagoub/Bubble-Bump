@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class GameController : MonoBehaviour {
     public TextMeshProUGUI scoreText;
+    public AudioClip[] audioClips;
+
     private int score;
     private GameObject player;
     private GameObject mainCamera;
@@ -44,6 +46,7 @@ public class GameController : MonoBehaviour {
         }
         else {
             Destroy(player);
+            gameObject.GetComponent<AudioSource>().PlayOneShot(audioClips[0]);
             ShowGameOver();
         }
     }

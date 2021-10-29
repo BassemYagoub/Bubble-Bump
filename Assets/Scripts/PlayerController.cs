@@ -5,9 +5,10 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour {
-    public float speed = 2.5f;
+    public float speed = 5f;
     public float projectileSpeed = 10f;
     public float jumpForce = 6.5f;
+    public AudioClip[] audioClips;
 
     private Rigidbody2D playerRb;
     private bool isJumping = false;
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour {
             if (!isShooting) {
                 isShooting = true;
                 StartCoroutine(ShootAnimation());
+                gameObject.GetComponent<AudioSource>().PlayOneShot(audioClips[2]);
             }
         }
 
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour {
         if (gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f) {
             gameObject.GetComponent<Animator>().SetBool("PropellerActivated", false);
             gameObject.GetComponent<Animator>().SetBool("JetpackActivated", false);
+            gameObject.GetComponent<AudioSource>().Stop();
             enemies.GetComponent<EnemyFactory>().setBonusIsActive(false); //reactivate enemy factory
         }
 
