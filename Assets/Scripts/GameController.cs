@@ -38,7 +38,8 @@ public class GameController : MonoBehaviour {
 
             //game state management
             if (player.transform.position.y < mainCamera.transform.position.y - 5.9f) {
-                gameOver = true;  
+                gameOver = true;
+                player.GetComponent<AudioSource>().Play();
             }
         }
         else {
