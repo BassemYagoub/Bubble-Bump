@@ -6,21 +6,30 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour {
     public float speed = 2.5f;
+    public float projectileSpeed = 10f;
     public float jumpForce = 6.5f;
 
     private Rigidbody2D playerRb;
     private bool isJumping = false;
+    private bool isShooting = false;
     private string previousSprite;
 
     private GameObject mainCamera;
     private GameObject enemies;
+    private GameObject projectiles;
     private Transform jetpackTransform;
+
+    public GameObject projectilePrefab;
+    private List<GameObject> projectilesList;
+    private int nextUpdate = 1; // Next update in second
 
     void Start() {
         playerRb = GetComponent<Rigidbody2D>();
         mainCamera = GameObject.Find("Main Camera");
         enemies = GameObject.Find("Enemies");
+        projectiles = GameObject.Find("Projectiles");
         jetpackTransform = gameObject.transform.GetChild(1).transform;
+        projectilesList = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -28,6 +37,13 @@ public class PlayerController : MonoBehaviour {
         CheckIfTouchesSide();
 
         Vector3 movement = Vector3.zero;
+        // If the next update is reached
+        if (Time.time >= nextUpdate) {
+            // Change the next update (current second+1)
+            nextUpdate = Mathf.FloorToInt(Time.time) + 1;
+            //updates every second
+            RemoveUnseeableProjectiles();
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
             if (!isJumping) {
@@ -62,12 +78,29 @@ public class PlayerController : MonoBehaviour {
             movement += Vector3.right;
         }
 
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log("piou piou");
+            if (!isShooting) {
+                isShooting = true;
+                StartCoroutine(ShootAnimation());
+            }
+        }
+
         transform.position += movement * speed * Time.deltaTime;
 
         if (gameObject.GetComponent<Rigidbody2D>().velocity.y <= 0f) {
             gameObject.GetComponent<Animator>().SetBool("PropellerActivated", false);
             gameObject.GetComponent<Animator>().SetBool("JetpackActivated", false);
             enemies.GetComponent<EnemyFactory>().setBonusIsActive(false); //reactivate enemy factory
+        }
+
+        Vector3 target;
+
+        foreach (GameObject projectile in projectilesList) {
+            Debug.Log("projectile");
+            target = projectile.transform.position;
+            target.y += 50;
+            projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, target, projectileSpeed * Time.deltaTime);
         }
     }
 
@@ -119,11 +152,42 @@ public class PlayerController : MonoBehaviour {
         isJumping = false;
     }
 
+    private IEnumerator ShootAnimation() {
+        //previousSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-puca@2x");
+        GameObject shootingMouth = gameObject.transform.Find("ShootingMouth").gameObject;
+        shootingMouth.SetActive(true);
+        //projectilePrefab
+        Vector3 projectilePos = gameObject.transform.position;
+        projectilePos.y += 0.5f;
+        GameObject projectile = Instantiate(projectilePrefab, projectilePos, projectilePrefab.transform.rotation);
+        projectile.transform.SetParent(projectiles.transform);
+        projectilesList.Add(projectile);
+        yield return new WaitForSeconds(.45f);
+        //gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
+        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
+        shootingMouth.SetActive(false);
+        isShooting = false;
+    }
+
 
     private void MirrorJetPack() {
         Vector3 jetpackPos = jetpackTransform.localPosition;
         jetpackTransform.transform.localPosition = new Vector3((-1) * jetpackPos.x, jetpackPos.y, jetpackPos.z);
         Quaternion jetpackRot = jetpackTransform.rotation;
         jetpackTransform.rotation = new Quaternion(jetpackRot.x, (-1) * jetpackRot.y, jetpackRot.z, jetpackRot.w);
+    }
+
+    void RemoveUnseeableProjectiles() {
+        float triggerDistance = mainCamera.transform.position.y + (mainCamera.GetComponent<Camera>().orthographicSize * 2);
+        GameObject projectileToRemove = null;
+
+        for (int i = projectilesList.Count - 1; i >= 0; i--) {
+            if (projectilesList[i].transform.position.y < triggerDistance - 0.5f) {
+                projectileToRemove = projectilesList[i];
+                projectilesList.RemoveAt(i);
+                Destroy(projectileToRemove);
+            }
+        }
     }
 }
