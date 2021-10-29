@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFactory : MonoBehaviour
-{
+public class EnemyFactory : MonoBehaviour {
     public GameObject redEnemyPrefab;
     public GameObject pinkEnemyPrefab;
     public GameObject ghostEnemyPrefab;
@@ -20,7 +19,7 @@ public class EnemyFactory : MonoBehaviour
     private bool bonusIsActive = false;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start() {
         player = GameObject.Find("Player");
         mainCamera = GameObject.Find("Main Camera");
         platforms = GameObject.Find("Platforms");
@@ -28,7 +27,7 @@ public class EnemyFactory : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update(){
+    void Update() {
         // If the next update is reached
         if (Time.time >= nextUpdate) {
             // Change the next update (current second+1)
@@ -42,7 +41,7 @@ public class EnemyFactory : MonoBehaviour
             GenerateEnemies(mainCamera.transform.position.y, mainCamera.GetComponent<Camera>().orthographicSize + .5f);
     }
 
-    void CreateEnemy(Vector3 pos){
+    void CreateEnemy(Vector3 pos) {
         GameObject newEnemy;
         float rand = Random.Range(0, 100);
 
@@ -51,10 +50,10 @@ public class EnemyFactory : MonoBehaviour
             newEnemy = Instantiate(blackHolePrefab, pos, blackHolePrefab.transform.rotation);
             newEnemy.transform.localScale = new Vector3(scale, scale, scale);
         }
-        else if (rand <= difficulty*0.8) {
+        else if (rand <= difficulty * 0.8) {
             newEnemy = Instantiate(ghostEnemyPrefab, pos, ghostEnemyPrefab.transform.rotation);
         }
-        else if (rand <= difficulty*0.5) { 
+        else if (rand <= difficulty * 0.5) {
             newEnemy = Instantiate(pinkEnemyPrefab, pos, pinkEnemyPrefab.transform.rotation);
         }
         else {

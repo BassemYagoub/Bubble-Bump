@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 target;
 
         foreach (GameObject projectile in projectilesList) {
-            Debug.Log("projectile");
+            //Debug.Log("projectile");
             target = projectile.transform.position;
             target.y += 50;
             projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, target, projectileSpeed * Time.deltaTime);
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
         GameObject projectile = Instantiate(projectilePrefab, projectilePos, projectilePrefab.transform.rotation);
         projectile.transform.SetParent(projectiles.transform);
         projectilesList.Add(projectile);
-        yield return new WaitForSeconds(.45f);
+        yield return new WaitForSeconds(.1f);
         //gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(previousSprite);
         gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("lik-right@2x");
         shootingMouth.SetActive(false);

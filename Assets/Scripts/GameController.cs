@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
     public TextMeshProUGUI scoreText;
     public AudioClip[] audioClips;
+    private bool gameOverSoundPlayed = false;
 
     private int score;
     private GameObject player;
@@ -44,7 +45,8 @@ public class GameController : MonoBehaviour {
                 player.GetComponent<AudioSource>().Play();
             }
         }
-        else {
+        else if(!gameOverSoundPlayed) {
+            gameOverSoundPlayed = true;
             Destroy(player);
             gameObject.GetComponent<AudioSource>().PlayOneShot(audioClips[0]);
             ShowGameOver();

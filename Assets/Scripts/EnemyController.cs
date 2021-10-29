@@ -80,4 +80,12 @@ public class EnemyController : MonoBehaviour
         if (transform.position.x == leftTarget || transform.position.x == rightTarget)
             tiltingRight = !tiltingRight;
     }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.name.Contains("Bubble") && !gameObject.name.Contains("BlackHole")) {
+            gameObject.GetComponentInParent<EnemyFactory>().enemies.Remove(gameObject);
+            Destroy(gameObject);
+        }
+
+    }
+
 }
