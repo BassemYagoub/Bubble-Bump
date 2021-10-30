@@ -1,7 +1,4 @@
 # Bubble-Bump
-A Doodle Jump bootleg made in Unity
+A Doodle Jump bootleg made in Unity with almost every feature from the original game.
 
-
-Dev Configuration :
-
-In *Edit>Project Settings>Physics 2D* : Uncheck "*Queries Start in Queries*"
+To play the game, simply extract the *Build.zip* and launch the *exe* file inside the directory.
